@@ -4,8 +4,12 @@ import com.hansei.api.dto.MemberRegistrationRequestDto;
 import com.hansei.api.dto.MemberResponseDto;
 import com.hansei.api.dto.OrderRequestDto;
 import com.hansei.api.entity.Member;
+import com.hansei.api.entity.PointHistory;
 import com.hansei.api.entity.Product;
+import com.hansei.api.entity.ProductOrder;
 import com.hansei.api.repository.MemberRepository;
+import com.hansei.api.repository.PointHistoryRepository;
+import com.hansei.api.repository.ProductOrderRepository;
 import com.hansei.api.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +19,18 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+    private final ProductOrderRepository productOrderRepository;
+    private final PointHistoryRepository pointHistoryRepository;
 
     @Autowired
     public MemberService(MemberRepository memberRepository,
-                         ProductRepository productRepository) {
+                         ProductRepository productRepository,
+                         ProductOrderRepository productOrderRepository,
+                         PointHistoryRepository pointHistoryRepository) {
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
+        this.productOrderRepository = productOrderRepository;
+        this.pointHistoryRepository = pointHistoryRepository;
     }
 
     public MemberResponseDto login(String phoneNumber, String password) {
@@ -55,6 +65,10 @@ public class MemberService {
     public Long addPoint(Long memberId, Long point) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.addPoint(point);
+
+        // TODO: status, type enum으로 변경
+        pointHistoryRepository.save(new PointHistory(member, "done", "add", point, null));
+
         return member.getPoint();
     }
 
@@ -67,5 +81,9 @@ public class MemberService {
         }
 
         member.usePoint(product.getProductPrice());
+
+        ProductOrder productOrder = productOrderRepository.save(new ProductOrder(product, member));
+        // TODO: status, type enum으로 변경
+        pointHistoryRepository.save(new PointHistory(member, "done", "order", product.getProductPrice(), productOrder));
     }
 }

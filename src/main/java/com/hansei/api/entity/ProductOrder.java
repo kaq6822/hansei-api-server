@@ -32,9 +32,17 @@ public class ProductOrder {
     @Column(name = "price", nullable = false)
     private Long price;
 
-    @Column(name = "point_history_id", nullable = false)
-    private Long pointHistoryId;
-
     @Column(name = "timestamp", nullable = false)
     private Date timestamp;
+
+    public ProductOrder(Product product, Member member) {
+        this.product = product;
+        this.member = member;
+        this.status = "ORDERED";
+        this.price = product.getProductPrice();
+        this.timestamp = new Date();
+    }
+
+    public ProductOrder() {
+    }
 }

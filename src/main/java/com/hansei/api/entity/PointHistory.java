@@ -34,6 +34,23 @@ public class PointHistory {
     @Column(name = "refunded_point", nullable = false)
     private Long refundedPoint;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_order_id", nullable = false, insertable = false, updatable = false)
+    private ProductOrder productOrder;
+
     @Column(name = "timestamp", nullable = false)
     private Date timestamp;
+
+    public PointHistory(Member member, String status, String type, Long point, ProductOrder productOrder) {
+        this.member = member;
+        this.status = status;
+        this.type = type;
+        this.point = point;
+        this.refundedPoint = 0L;
+        this.productOrder = productOrder;
+        this.timestamp = new Date();
+    }
+
+    public PointHistory() {
+    }
 }
