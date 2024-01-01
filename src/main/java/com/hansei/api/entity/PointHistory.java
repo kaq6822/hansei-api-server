@@ -31,10 +31,7 @@ public class PointHistory {
     @Column(name = "point", nullable = false)
     private Long point;
 
-    @Column(name = "refunded_point", nullable = false)
-    private Long refundedPoint;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_order_id")
     private ProductOrder productOrder;
 
@@ -46,7 +43,6 @@ public class PointHistory {
         this.status = status;
         this.type = type;
         this.point = point;
-        this.refundedPoint = 0L;
         this.productOrder = productOrder;
         this.timestamp = new Date();
     }
@@ -56,7 +52,6 @@ public class PointHistory {
         this.status = status;
         this.type = type;
         this.point = point;
-        this.refundedPoint = 0L;
         this.timestamp = new Date();
     }
 

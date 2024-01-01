@@ -47,4 +47,10 @@ public class MemberController {
     public ApiResponse<List<ProductOrderResponseDto>> getOrders(@PathVariable Long memberId) {
         return ApiResponse.success(memberService.getOrders(memberId));
     }
+
+    @DeleteMapping("/member/{memberId}/order/{orderId}")
+    public ApiResponse cancelOrder(@PathVariable Long memberId, @PathVariable Long orderId) {
+        memberService.cancelOrder(memberId, orderId);
+        return ApiResponse.success();
+    }
 }

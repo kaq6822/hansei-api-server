@@ -2,6 +2,7 @@ package com.hansei.api.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -26,6 +27,7 @@ public class ProductOrder {
     @JoinColumn(name = "member_member_id", nullable = false, insertable = false, updatable = false)
     private Member member;
 
+    @Setter
     @Column(name = "status", nullable = false)
     private String status;
 
