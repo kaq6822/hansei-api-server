@@ -16,9 +16,14 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public boolean passwordValidation(Long userId, String password) {
-        Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-        return member.getUserPw().equals(password);
+    public MemberResponseDto login(String phoneNumber, String password) {
+        Member member = memberRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        if (!member.getUserPw().equals(password)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return new MemberResponseDto(member);
     }
 
     public MemberResponseDto find(Long userId) {
