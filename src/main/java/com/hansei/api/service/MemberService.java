@@ -40,7 +40,7 @@ public class MemberService {
     public MemberResponseDto login(String phoneNumber, String password) {
         Member member = memberRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        if (!member.getUserPw().equals(password)) {
+        if (!member.getPassword().equals(password)) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
@@ -62,7 +62,7 @@ public class MemberService {
     }
 
     private boolean validateMemberRegistrationRequestDto(MemberRegistrationRequestDto member) {
-        return member.phoneNumber() != null && member.userPw() != null && member.name() != null;
+        return member.phoneNumber() != null && member.password() != null && member.name() != null;
     }
 
     @Transactional

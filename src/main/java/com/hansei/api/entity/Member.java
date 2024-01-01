@@ -23,9 +23,9 @@ public class Member {
     private String phoneNumber;
 
     @Setter
-    @Column(name = "user_pw", nullable = false)
+    @Column(name = "password", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private String userPw;
+    private String password;
 
     @Setter
     @Column(name = "name")
@@ -41,9 +41,9 @@ public class Member {
         this.point = 0L;
     }
 
-    public Member(String phoneNumber, String userPw, String name) {
+    public Member(String phoneNumber, String password, String name) {
         this.phoneNumber = phoneNumber;
-        this.userPw = userPw;
+        this.password = password;
         this.name = name;
         this.point = 0L;
     }

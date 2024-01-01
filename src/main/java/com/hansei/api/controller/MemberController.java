@@ -19,7 +19,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ApiResponse<MemberResponseDto> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
-        return ApiResponse.success(memberService.login(memberLoginRequestDto.phoneNumber(), memberLoginRequestDto.userPw()));
+        return ApiResponse.success(memberService.login(memberLoginRequestDto.phoneNumber(), memberLoginRequestDto.password()));
     }
 
     @PostMapping("/member")
