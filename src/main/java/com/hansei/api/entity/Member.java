@@ -47,4 +47,8 @@ public class Member {
         this.name = name;
         this.point = 0L;
     }
+
+    public void addPoint(Long point) {
+        this.point += point;
+    }
 }

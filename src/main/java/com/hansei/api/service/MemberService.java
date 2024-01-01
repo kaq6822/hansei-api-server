@@ -4,6 +4,7 @@ import com.hansei.api.dto.MemberRegistrationRequestDto;
 import com.hansei.api.dto.MemberResponseDto;
 import com.hansei.api.entity.Member;
 import com.hansei.api.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,12 @@ public class MemberService {
 
     private boolean validateMemberRegistrationRequestDto(MemberRegistrationRequestDto member) {
         return member.phoneNumber() != null && member.userPw() != null && member.name() != null;
+    }
+
+    @Transactional
+    public Long addPoint(Long memberId, Long point) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        member.addPoint(point);
+        return member.getPoint();
     }
 }
