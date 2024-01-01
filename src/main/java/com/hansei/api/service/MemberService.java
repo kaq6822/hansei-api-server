@@ -2,8 +2,11 @@ package com.hansei.api.service;
 
 import com.hansei.api.dto.MemberRegistrationRequestDto;
 import com.hansei.api.dto.MemberResponseDto;
+import com.hansei.api.dto.OrderRequestDto;
 import com.hansei.api.entity.Member;
+import com.hansei.api.entity.Product;
 import com.hansei.api.repository.MemberRepository;
+import com.hansei.api.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository,
+                         ProductRepository productRepository) {
         this.memberRepository = memberRepository;
+        this.productRepository = productRepository;
     }
 
     public MemberResponseDto login(String phoneNumber, String password) {
@@ -50,5 +56,16 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.addPoint(point);
         return member.getPoint();
+    }
+
+    public void order(Long memberId, OrderRequestDto orderRequestDto) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        Product product = productRepository.findById(orderRequestDto.productId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
+        if (member.getPoint() < product.getProductPrice()) {
+            throw new IllegalArgumentException("포인트가 부족합니다.");
+        }
+
+        member.usePoint(product.getProductPrice());
     }
 }

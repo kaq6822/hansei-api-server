@@ -34,4 +34,10 @@ public class MemberController {
     public ApiResponse<Long> addPoint(@PathVariable Long memberId, @RequestBody MemberAddPointRequestDto memberAddPointRequestDto) {
         return ApiResponse.success(memberService.addPoint(memberId, memberAddPointRequestDto.point()));
     }
+
+    @PostMapping("/member/{memberId}/order")
+    public ApiResponse order(@PathVariable Long memberId, @RequestBody OrderRequestDto orderRequestDto) {
+        memberService.order(memberId, orderRequestDto);
+        return ApiResponse.success();
+    }
 }

@@ -51,4 +51,8 @@ public class Member {
     public void addPoint(Long point) {
         this.point += point;
     }
+
+    public void usePoint(Long point) {
+        this.point -= point;
+    }
 }
