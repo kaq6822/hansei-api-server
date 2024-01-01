@@ -16,17 +16,17 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public boolean memberPasswordValidation(Long userId, String password) {
+    public boolean passwordValidation(Long userId, String password) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         return member.getUserPw().equals(password);
     }
 
-    public MemberResponseDto memberInfo(Long userId) {
+    public MemberResponseDto find(Long userId) {
         Member member = memberRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         return new MemberResponseDto(member);
     }
 
-    public MemberResponseDto createMember(MemberRegistrationRequestDto member) {
+    public MemberResponseDto registration(MemberRegistrationRequestDto member) {
         if (!validateMemberRegistrationRequestDto(member)) {
             throw new IllegalArgumentException("회원 정보가 올바르지 않습니다.");
         }
