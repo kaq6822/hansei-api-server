@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public record MemberResponseDto(Long memberId, String phoneNumber, String userPw, String name,
                                 Long point) implements Serializable {
-    MemberResponseDto(Member member) {
+    public MemberResponseDto(Member member) {
         this(member.getMemberId(), member.getPhoneNumber(), member.getUserPw(), member.getName(),
                 member.getPoint());
     }
