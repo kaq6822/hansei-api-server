@@ -25,6 +25,6 @@ public class Product {
     private String productImageUrl;
 
     @Column(name = "product_price", nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private String productPrice;
+    @JdbcTypeCode(SqlTypes.BIGINT)
+    private Long productPrice;
 }
