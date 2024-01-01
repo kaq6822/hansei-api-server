@@ -3,6 +3,7 @@ package com.hansei.api.service;
 import com.hansei.api.dto.MemberRegistrationRequestDto;
 import com.hansei.api.dto.MemberResponseDto;
 import com.hansei.api.dto.OrderRequestDto;
+import com.hansei.api.dto.ProductOrderResponseDto;
 import com.hansei.api.entity.Member;
 import com.hansei.api.entity.PointHistory;
 import com.hansei.api.entity.Product;
@@ -14,6 +15,9 @@ import com.hansei.api.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -67,7 +71,7 @@ public class MemberService {
         member.addPoint(point);
 
         // TODO: status, type enum으로 변경
-        pointHistoryRepository.save(new PointHistory(member, "done", "add", point, null));
+        pointHistoryRepository.save(new PointHistory(member, "done", "add", point));
 
         return member.getPoint();
     }
@@ -85,5 +89,14 @@ public class MemberService {
         ProductOrder productOrder = productOrderRepository.save(new ProductOrder(product, member));
         // TODO: status, type enum으로 변경
         pointHistoryRepository.save(new PointHistory(member, "done", "order", product.getProductPrice(), productOrder));
+    }
+
+    public List<ProductOrderResponseDto> getOrders(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        List<ProductOrder> productOrders = productOrderRepository.findByMember(member);
+
+        return productOrders.stream()
+                .map(ProductOrderResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

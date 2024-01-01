@@ -19,7 +19,7 @@ public class PointHistory {
     private Long pointHistoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(name = "status", nullable = false)
@@ -35,7 +35,7 @@ public class PointHistory {
     private Long refundedPoint;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_order_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "product_order_id")
     private ProductOrder productOrder;
 
     @Column(name = "timestamp", nullable = false)
@@ -48,6 +48,15 @@ public class PointHistory {
         this.point = point;
         this.refundedPoint = 0L;
         this.productOrder = productOrder;
+        this.timestamp = new Date();
+    }
+
+    public PointHistory(Member member, String status, String type, Long point) {
+        this.member = member;
+        this.status = status;
+        this.type = type;
+        this.point = point;
+        this.refundedPoint = 0L;
         this.timestamp = new Date();
     }
 

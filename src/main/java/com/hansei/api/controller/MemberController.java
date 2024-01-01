@@ -6,6 +6,8 @@ import com.hansei.api.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class MemberController {
     private final MemberService memberService;
@@ -39,5 +41,10 @@ public class MemberController {
     public ApiResponse order(@PathVariable Long memberId, @RequestBody OrderRequestDto orderRequestDto) {
         memberService.order(memberId, orderRequestDto);
         return ApiResponse.success();
+    }
+
+    @GetMapping("/member/{memberId}/orders")
+    public ApiResponse<List<ProductOrderResponseDto>> getOrders(@PathVariable Long memberId) {
+        return ApiResponse.success(memberService.getOrders(memberId));
     }
 }
