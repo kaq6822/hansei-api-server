@@ -40,4 +40,11 @@ public class Member {
     public Member() {
         this.point = 0L;
     }
+
+    public Member(String phoneNumber, String userPw, String name) {
+        this.phoneNumber = phoneNumber;
+        this.userPw = userPw;
+        this.name = name;
+        this.point = 0L;
+    }
 }
