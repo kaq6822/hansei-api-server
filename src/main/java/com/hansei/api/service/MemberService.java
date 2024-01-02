@@ -71,7 +71,7 @@ public class MemberService {
         member.addPoint(point);
 
         // TODO: status, type enum으로 변경
-        pointHistoryRepository.save(new PointHistory(member, "add", "charge", point));
+        pointHistoryRepository.save(new PointHistory(member, "ADD", "charge", point));
 
         return member.getPoint();
     }
@@ -88,7 +88,7 @@ public class MemberService {
 
         ProductOrder productOrder = productOrderRepository.save(new ProductOrder(product, member));
         // TODO: status, type enum으로 변경
-        pointHistoryRepository.save(new PointHistory(member, "subtract", "order", product.getProductPrice(), productOrder));
+        pointHistoryRepository.save(new PointHistory(member, "SUBTRACT", "order", product.getProductPrice(), productOrder));
     }
 
     public List<ProductOrderResponseDto> getOrders(Long memberId) {
@@ -104,10 +104,10 @@ public class MemberService {
     public void cancelOrder(Long memberId, Long productOrderId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         ProductOrder productOrder = productOrderRepository.findById(productOrderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
-        productOrder.setStatus("canceled");
+        productOrder.setStatus("CANCELED");
 
         member.addPoint(productOrder.getProduct().getProductPrice());
-        pointHistoryRepository.save(new PointHistory(member, "add", "cancel", productOrder.getProduct().getProductPrice(), productOrder));
+        pointHistoryRepository.save(new PointHistory(member, "ADD", "cancel", productOrder.getProduct().getProductPrice(), productOrder));
     }
 
 }
