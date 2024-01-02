@@ -20,11 +20,11 @@ public class ProductOrder {
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_member_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "member_member_id", nullable = false)
     private Member member;
 
     @Setter
