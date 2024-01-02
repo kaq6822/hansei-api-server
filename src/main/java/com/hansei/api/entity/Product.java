@@ -27,4 +27,13 @@ public class Product {
     @Column(name = "product_price", nullable = false)
     @JdbcTypeCode(SqlTypes.BIGINT)
     private Long productPrice;
+
+    public Product(String productName, String productImageUrl, Long productPrice) {
+        this.productName = productName;
+        this.productImageUrl = productImageUrl;
+        this.productPrice = productPrice;
+    }
+
+    public Product() {
+    }
 }

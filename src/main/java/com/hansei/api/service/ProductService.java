@@ -1,5 +1,6 @@
 package com.hansei.api.service;
 
+import com.hansei.api.dto.ProductAddRequestDto;
 import com.hansei.api.dto.ProductResponseDto;
 import com.hansei.api.entity.Product;
 import com.hansei.api.repository.ProductRepository;
@@ -24,4 +25,8 @@ public class ProductService {
                 .toList();
     }
 
+    public ProductResponseDto addProduct(ProductAddRequestDto productAddRequestDto) {
+        Product product = productRepository.save(productAddRequestDto.toEntity());
+        return new ProductResponseDto(product);
+    }
 }
