@@ -18,7 +18,7 @@ public class Member {
     private Long memberId;
 
     @Setter
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number", nullable = false, unique = true)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private String phoneNumber;
 
